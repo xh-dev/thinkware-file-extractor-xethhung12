@@ -2,7 +2,7 @@
 
 build
 ```shell
-python -m build
+rm -fr dist && python -m build
 ```
 
 deploy
