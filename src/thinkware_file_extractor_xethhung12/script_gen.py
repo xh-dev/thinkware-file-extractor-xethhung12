@@ -1,13 +1,13 @@
 from os.path import abspath
 
 
-def gen_merge_script(source, dest, prefix, suffix):
+def gen_merge_script(source, dest, prefix, suffix, dest_file_name):
     source = abspath(source)
     source = source[0:-1] if source.endswith("/") else source
     dest = abspath(dest)
     dest = dest[0:-1] if dest.endswith("/") else dest
-    dest_file=f"{dest}/merge_file"
-    dest_mp4_file=f"{dest}/merge.mp4"
+    dest_file=f"{dest}/{dest_file_name}_merge_file"
+    dest_mp4_file=f"{dest}/{dest_file_name}.mp4"
 
     replaced_source=source.replace("/","\\/")+"\\/"
     return f"""

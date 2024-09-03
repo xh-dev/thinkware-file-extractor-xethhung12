@@ -74,6 +74,9 @@ def main():
     level_1_subparser_script_gen_parser_level_2_parser.add_argument(
         "--mode", type=str, help="front or rear", choices = ["F", "R"]
     )
+    level_1_subparser_script_gen_parser_level_2_parser.add_argument(
+        "--dest-file-name", type=str, help="destination file name", default="merge"
+    )
 
     x = parser.parse_args(sys.argv[1:])
     if x.level1 == "utils":
@@ -101,7 +104,7 @@ def main():
             print(x)
     elif x.level1 == "script-gen":
         if x.level2 == "merge-script":
-            print(gen_merge_script(x.source, x.dest, x.prefix, x.mode))
+            print(gen_merge_script(x.source, x.dest, x.prefix, x.mode, x.dest_file_name if x.dest_file_name is not None else "merge"))
     else:
         print(x)
 
