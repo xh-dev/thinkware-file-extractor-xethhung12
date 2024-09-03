@@ -1,4 +1,5 @@
-import sys
+import json
+import os
 
 width_for_4k="3840"
 width_for_2k="2560"
@@ -26,6 +27,31 @@ def get_y(val) -> str:
     return "980"
   else:
     return "UNKNOWN"
+
+
+class MP4View:
+  def __init__(self, map):
+    self.map = map
+
+  def get_width(self)->int:
+    return self.map["width"]
+
+  def get_height(self)->int:
+    return self.map["height"]
+
+  def get_codec(self)->str:
+    return self.map["codec_name"]
+
+  def get_codec_long_name(self)->str:
+    return self.map["codec_long_name"]
+
+def mp4view(f_name)->MP4View:
+  abs_file_name = str(os.path.abspath(f_name))
+  cmd = f"ffprobe -v error -select_streams v -show_streams -of json {abs_file_name}"
+  out = os.popen(cmd).read()
+  d = json.loads(out)
+  return MP4View(d["streams"][0])
+
 
 # if __name__ == "__main__":
 #   if sys.argv[1] == "scale":
