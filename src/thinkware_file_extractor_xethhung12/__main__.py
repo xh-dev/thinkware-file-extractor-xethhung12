@@ -69,7 +69,7 @@ def main():
         "--dest", type=str, help="destination path"
     )
     level_1_subparser_script_gen_parser_level_2_parser.add_argument(
-        "--prefix", type=str, help="prefix of file", choices = ["EVT", "REC"]
+        "--prefix", type=str, help="prefix of file", choices = ["EVT", "REC", "MOT", "PAK"]
     )
     level_1_subparser_script_gen_parser_level_2_parser.add_argument(
         "--mode", type=str, help="front or rear", choices = ["F", "R"]

@@ -16,5 +16,5 @@ def gen_merge_script(source, dest, prefix, suffix, dest_file_name):
 ##### Generate merge script 
 rm -f {dest_file} {dest_mp4_file}
 ls -al {source} | grep -o {prefix}_.*_{suffix}.MP4 | sed 's/^/file {replaced_source}/' > {dest_file}
-ffmpeg -f concat -i {dest_file} -vcodec copy -acodec copy -safe 0 {dest_mp4_file}
+ffmpeg -f concat -safe 0 -i {dest_file} -vcodec copy -acodec copy {dest_mp4_file}
 """
