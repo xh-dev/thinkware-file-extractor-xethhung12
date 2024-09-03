@@ -1,10 +1,10 @@
 import argparse
 import json
 import sys
-from sys import prefix
-from textwrap import indent
+from thinkware_file_extractor_xethhung12.script_gen import gen_merge_script
 
 import thinkware_file_extractor_xethhung12 as thinkwareExtractor
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -57,6 +57,24 @@ def main():
         "--file-name","-f", type=str, help="view file"
     )
 
+    level_1_subparser_script_gen_parser = level_1_subparser.add_parser(
+        "script-gen", description="generate scripts"
+    )
+    level_1_subparser_script_gen_parser_level_2=level_1_subparser_script_gen_parser.add_subparsers(help="merge-script", dest="level2")
+    level_1_subparser_script_gen_parser_level_2_parser=level_1_subparser_script_gen_parser_level_2.add_parser("merge-script")
+    level_1_subparser_script_gen_parser_level_2_parser.add_argument(
+        "--source", type=str, help="source path"
+    )
+    level_1_subparser_script_gen_parser_level_2_parser.add_argument(
+        "--dest", type=str, help="destination path"
+    )
+    level_1_subparser_script_gen_parser_level_2_parser.add_argument(
+        "--prefix", type=str, help="prefix of file", choices = ["EVT", "REC"]
+    )
+    level_1_subparser_script_gen_parser_level_2_parser.add_argument(
+        "--mode", type=str, help="front or rear", choices = ["F", "R"]
+    )
+
     x = parser.parse_args(sys.argv[1:])
     if x.level1 == "utils":
         if(x.level2 == "when-x"):
@@ -81,6 +99,9 @@ def main():
             print(thinkwareExtractor.utils_tools.mp4view(x.file_name).get_codec())
         else:
             print(x)
+    elif x.level1 == "script-gen":
+        if x.level2 == "merge-script":
+            print(gen_merge_script(x.source, x.dest, x.prefix, x.mode))
     else:
         print(x)
 
