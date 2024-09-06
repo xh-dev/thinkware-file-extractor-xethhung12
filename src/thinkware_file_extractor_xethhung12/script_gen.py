@@ -45,7 +45,8 @@ def gen_copy_script(source, dest):
     dest_parking_rec=remove_last_slash(f"{dest}/parking_rec")
 
     def script_from_to(src, dest):
-        return f"""echo copy from `{src}` to `{dest}`
+        return f"""mkdir -p {dest}
+echo copy from `{src}` to `{dest}`
 rm -fr {dest}
 cp -r {src} {dest}
 echo "origin file count: $(ls -al {src} | wc -l)"
