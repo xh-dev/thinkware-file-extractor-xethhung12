@@ -46,7 +46,7 @@ def gen_copy_script(source, dest):
 
     def script_from_to(src, dest):
         return f"""mkdir -p {dest}
-echo copy from `{src}` to `{dest}`
+echo 'copy from `{src}` to `{dest}`'
 rm -fr {dest}
 cp -r {src} {dest}
 echo "origin file count: $(ls -al {src} | wc -l)"
