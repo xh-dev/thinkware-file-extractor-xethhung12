@@ -26,27 +26,30 @@ def gen_copy_script(source, dest):
     if not isdir(source):
         raise NotADirectoryError
 
-    source = str(abspath(source))
-    source = source[0:-1] if source.endswith("/") else source
-    source_cont_rec=f"{source}/cont_rec"
-    source_evt_rec=f"{source}/evt_rec"
-    source_manual_rec=f"{source}/manual_rec"
-    source_motion_timelapse_rec=f"{source}/montion_timelapse_rec"
-    source_parking_rec=f"{source}/parking_rec"
+    def remove_last_slash(p):
+        return p[0:-1] if p.endswith("/") else p
+
+    source = remove_last_slash(str(abspath(source)))
+    source_cont_rec=remove_last_slash(f"{source}/cont_rec")
+    source_evt_rec=remove_last_slash(f"{source}/evt_rec")
+    source_manual_rec=remove_last_slash(f"{source}/manual_rec")
+    source_motion_timelapse_rec=remove_last_slash(f"{source}/motion_timelapse_rec")
+    source_parking_rec=remove_last_slash(f"{source}/parking_rec")
 
     os.makedirs(dest,exist_ok=True)
-    dest = abspath(dest)
-    dest = dest[0:-1] if dest.endswith("/") else dest
-    dest_cont_rec=f"{dest}/cont_rec"
-    dest_evt_rec=f"{dest}/evt_rec"
-    dest_manual_rec=f"{dest}/manual_rec"
-    dest_motion_timelapse_rec=f"{dest}/montion_timelapse_rec"
-    dest_parking_rec=f"{dest}/parking_rec"
+    dest = remove_last_slash(str(abspath(dest)))
+    dest_cont_rec=remove_last_slash(f"{dest}/cont_rec")
+    dest_evt_rec=remove_last_slash(f"{dest}/evt_rec")
+    dest_manual_rec=remove_last_slash(f"{dest}/manual_rec")
+    dest_motion_timelapse_rec=remove_last_slash(f"{dest}/motion_timelapse_rec")
+    dest_parking_rec=remove_last_slash(f"{dest}/parking_rec")
 
     def script_from_to(src, dest):
-        return f"""
+        return f"""echo copy from `{src}` to `{dest}`
 rm -fr {dest}
 cp -r {src} {dest}
+echo "origin file count: $(ls -al {src} | wc -l)"
+echo "dest file count: $(ls -al {dest} | wc -l)"
 """
 
     script_gen = "\n".join([script_from_to(s, d) for s,d in [
