@@ -1,7 +1,7 @@
 import argparse
 import json
 import sys
-from thinkware_file_extractor_xethhung12.script_gen import gen_merge_script
+from thinkware_file_extractor_xethhung12.script_gen import gen_merge_script, gen_copy_script
 
 import thinkware_file_extractor_xethhung12 as thinkwareExtractor
 
@@ -78,9 +78,17 @@ def main():
         "--dest-file-name", type=str, help="destination file name", default="merge"
     )
 
+    level_1_subparser_script_gen_parser_level_2_copy_script_parser=level_1_subparser_script_gen_parser_level_2.add_parser("copy-script")
+    level_1_subparser_script_gen_parser_level_2_copy_script_parser.add_argument(
+        "--source", type=str, help="source path"
+    )
+    level_1_subparser_script_gen_parser_level_2_copy_script_parser.add_argument(
+        "--dest", type=str, help="destination path"
+    )
+
     x = parser.parse_args(sys.argv[1:])
     if x.level1 == "utils":
-        if(x.level2 == "when-x"):
+        if x.level2 == "when-x":
             val = x.value
             return print(thinkwareExtractor.utils.get_x(val))
         elif x.level2 == "when-y":
@@ -105,6 +113,10 @@ def main():
     elif x.level1 == "script-gen":
         if x.level2 == "merge-script":
             print(gen_merge_script(x.source, x.dest, x.prefix, x.mode, x.dest_file_name if x.dest_file_name is not None else "merge"))
+        elif x.level2 == "copy-script":
+            print(gen_copy_script(x.source, x.dest))
+        else:
+            print(x)
     else:
         print(x)
 
