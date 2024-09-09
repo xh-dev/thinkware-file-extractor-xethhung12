@@ -14,7 +14,7 @@ def main():
 
     level_1_subparser=parser.add_subparsers(help="utils", dest="level1")
     level_1_subparser_utils_parser = level_1_subparser.add_parser(
-        "utils", description="utils"
+        "utils", description="utils for querying information"
     )
     utils_parser_level_2=level_1_subparser_utils_parser.add_subparsers(help="when-x", dest="level2")
 
@@ -31,6 +31,28 @@ def main():
     utils_parser_level_2_scale=utils_parser_level_2.add_parser("scale")
     utils_parser_level_2_scale.add_argument(
         "--value","-v", type=str, help="scale value"
+    )
+
+    utils_parser_level_2_has_target_file=utils_parser_level_2.add_parser("has-target-file")
+    utils_parser_level_2_has_target_file.add_argument(
+        "--path", type=str, help="path to test"
+    )
+    utils_parser_level_2_has_target_file.add_argument(
+        "--prefix", type=str, help="prefix of file", choices = ["EVT", "REC", "MOT", "PAK"]
+    )
+    utils_parser_level_2_has_target_file.add_argument(
+        "--mode", type=str, help="front or rear", choices = ["F", "R"]
+    )
+
+    utils_parser_level_2_target_file_count=utils_parser_level_2.add_parser("target-file-count")
+    utils_parser_level_2_target_file_count.add_argument(
+        "--path", type=str, help="path to test"
+    )
+    utils_parser_level_2_target_file_count.add_argument(
+        "--prefix", type=str, help="prefix of file", choices = ["EVT", "REC", "MOT", "PAK"]
+    )
+    utils_parser_level_2_target_file_count.add_argument(
+        "--mode", type=str, help="front or rear", choices = ["F", "R"]
     )
 
     level_1_subparser_mp4_parser = level_1_subparser.add_parser(
@@ -86,6 +108,17 @@ def main():
         "--dest", type=str, help="destination path"
     )
 
+    level_1_subparser_script_gen_parser_level_2_split_and_merge_parser=level_1_subparser_script_gen_parser_level_2.add_parser("split-and-merge-script")
+    level_1_subparser_script_gen_parser_level_2_split_and_merge_parser.add_argument(
+        "--yaml", type=str, help="cut config in yaml"
+    )
+    level_1_subparser_script_gen_parser_level_2_split_and_merge_parser.add_argument(
+        "--front", type=str, help="front movie"
+    )
+    level_1_subparser_script_gen_parser_level_2_split_and_merge_parser.add_argument(
+        "--rear", type=str, help="rear movie"
+    )
+
     x = parser.parse_args(sys.argv[1:])
     if x.level1 == "utils":
         if x.level2 == "when-x":
@@ -97,6 +130,16 @@ def main():
         elif x.level2 == "scale":
             val = x.value
             return print(thinkwareExtractor.utils.get_scale(val))
+        elif x.level2 == "target-file-count":
+            path = x.path
+            prefix = x.prefix
+            mode = x.mode
+            return print(thinkwareExtractor.utils.target_file_count(path, prefix, mode))
+        elif x.level2 == "has-target-file":
+            path = x.path
+            prefix = x.prefix
+            mode = x.mode
+            return print("yes" if thinkwareExtractor.utils.has_target_file(path, prefix, mode) else "no")
         else:
             print(x)
     elif x.level1 == "mp4":
@@ -115,6 +158,8 @@ def main():
             print(gen_merge_script(x.source, x.dest, x.prefix, x.mode, x.dest_file_name if x.dest_file_name is not None else "merge"))
         elif x.level2 == "copy-script":
             print(gen_copy_script(x.source, x.dest))
+        elif x.level2 == "split-and-merge-script":
+            print(thinkwareExtractor.cut_lib.cut(x.yaml, x.front, x.rear))
         else:
             print(x)
     else:

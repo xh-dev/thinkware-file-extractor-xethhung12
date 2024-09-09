@@ -55,12 +55,19 @@ def mp4view(f_name)->MP4View:
   return MP4View(d["streams"][0])
 
 
-# if __name__ == "__main__":
-#   if sys.argv[1] == "scale":
-#     print(get_scale())
-#   elif sys.argv[1] == "x":
-#     print(get_x())
-#   elif sys.argv[1] == "y":
-#     print(get_y())
-#   else:
-#     sys.exit(1)
+def target_file(path, prefix, mode) -> [str]:
+    path = os.path.abspath(path)
+    f = []
+    for (_, _, files) in os.walk(path):
+        for filename in files:
+            if filename.startswith(prefix) and filename.endswith(mode + ".MP4"):
+                f.append(filename)
+    return f
+
+
+def target_file_count(path, prefix, mode) -> int:
+    return len(target_file(path, prefix, mode))
+
+
+def has_target_file(path, prefix, mode) -> bool:
+    return target_file_count(path, prefix, mode) > 0

@@ -3,3 +3,4 @@ twine
 google-api-python-client
 oauth2client
 xh-py-project-versioning
+pyyaml
