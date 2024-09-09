@@ -1,2 +1,3 @@
-from thinkware_file_extractor_xethhung12.example import a
 import thinkware_file_extractor_xethhung12.utils_tools as utils
+
+from thinkware_file_extractor_xethhung12.utils_tools import is_debug

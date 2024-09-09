@@ -1,6 +1,8 @@
 import json
 import os
 
+is_debug = True if os.environ.get("dev", default='false') == "true" else False
+
 width_for_4k="3840"
 width_for_2k="2560"
 
