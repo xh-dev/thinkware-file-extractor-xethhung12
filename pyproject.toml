@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "thinkware_file_extractor_xethhung12"
-version = "0.1.7"
+version = "0.1.8-dev+000"
 description = "A small example package"
 readme = "Readme.md"
 requires-python = ">=3.8"

@@ -7,6 +7,7 @@ def gen_merge_script(source, dest, prefix, suffix, dest_file_name):
     source = source[0:-1] if source.endswith("/") else source
     dest = abspath(dest)
     dest = dest[0:-1] if dest.endswith("/") else dest
+    os.makedirs(dest, exist_ok=True)
     dest_file=f"{dest}/{dest_file_name}"
     dest_mp4_file=f"{dest}/{dest_file_name}.mp4"
 
