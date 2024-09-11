@@ -4,7 +4,7 @@ import sys
 
 import yaml
 
-from thinkware_file_extractor_xethhung12.script_gen import gen_merge_script, gen_copy_script
+from thinkware_file_extractor_xethhung12.script_gen import gen_merge_script, gen_copy_script, clear_script_gen
 
 import thinkware_file_extractor_xethhung12 as thinkwareExtractor
 
@@ -108,6 +108,11 @@ def main():
         "--dest-file-name", type=str, help="destination file name", default="merge"
     )
 
+    level_1_subparser_script_gen_parser_level_2_clear_script_parser=level_1_subparser_script_gen_parser_level_2.add_parser("clear-script")
+    level_1_subparser_script_gen_parser_level_2_clear_script_parser.add_argument(
+        "--path", type=str, help="path to clear"
+    )
+
     level_1_subparser_script_gen_parser_level_2_copy_script_parser=level_1_subparser_script_gen_parser_level_2.add_parser("copy-script")
     level_1_subparser_script_gen_parser_level_2_copy_script_parser.add_argument(
         "--source", type=str, help="source path"
@@ -168,6 +173,8 @@ def main():
             print(gen_merge_script(x.source, x.dest, x.prefix, x.mode, x.dest_file_name if x.dest_file_name is not None else "merge"))
         elif x.level2 == "copy-script":
             print(gen_copy_script(x.source, x.dest))
+        elif x.level2 == "clear-script":
+            print(clear_script_gen(x.path))
         elif x.level2 == "split-and-merge-script":
             print(thinkwareExtractor.cut_lib.cut(x.yaml, x.front, x.rear))
         else:
