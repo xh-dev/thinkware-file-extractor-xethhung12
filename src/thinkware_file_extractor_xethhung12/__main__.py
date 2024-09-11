@@ -1,6 +1,9 @@
 import argparse
 import json
 import sys
+
+import yaml
+
 from thinkware_file_extractor_xethhung12.script_gen import gen_merge_script, gen_copy_script
 
 import thinkware_file_extractor_xethhung12 as thinkwareExtractor
@@ -17,6 +20,11 @@ def main():
         "utils", description="utils for querying information"
     )
     utils_parser_level_2=level_1_subparser_utils_parser.add_subparsers(help="when-x", dest="level2")
+
+    utils_parser_level_2_view_fs=utils_parser_level_2.add_parser("view-fs")
+    utils_parser_level_2_view_fs.add_argument(
+        "--path", type=str, help="path to view"
+    )
 
     utils_parser_level_2_when_x=utils_parser_level_2.add_parser("when-x")
     utils_parser_level_2_when_x.add_argument(
@@ -121,6 +129,8 @@ def main():
 
     x = parser.parse_args(sys.argv[1:])
     if x.level1 == "utils":
+        if x.level2 == "view-fs":
+            return print(yaml.safe_dump(thinkwareExtractor.utils.summary(x.path)))
         if x.level2 == "when-x":
             val = x.value
             return print(thinkwareExtractor.utils.get_x(val))
