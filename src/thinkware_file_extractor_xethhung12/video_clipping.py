@@ -4,6 +4,13 @@ import sys
 
 import cv2
 from pytesseract import pytesseract
+from dataclasses import dataclass
+
+@dataclass
+class VideoClipping:
+    date: str
+    hour: str
+    corresponding_timestamp: str
 
 def extract_time_list(p):
     l = []
@@ -88,8 +95,12 @@ def extract_time_list(p):
                 s = sec % 60
 
                 # Appending the text into file
-                t = f"{h:02d}:{m:02d}:{s:02d} -> {text}"
-                l.append(t)
+                l.append(VideoClipping(
+                    text[0:10].replace(".","-"),
+                    text[11:13],
+                    f"{h:02d}:{m:02d}:{s:02d}"
+                ))
+                # t = f"{h:02d}:{m:02d}:{s:02d} -> {text}"
                 # file.write(t)
                 # file.write("\n")
 

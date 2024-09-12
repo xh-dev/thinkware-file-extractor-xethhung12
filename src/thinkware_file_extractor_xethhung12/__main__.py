@@ -45,9 +45,6 @@ def main():
     utils_parser_level_2_timeline_scan.add_argument(
         "--path", type=str, help="path to test",
     )
-    utils_parser_level_2_timeline_scan.add_argument(
-        "--cut-config", type=bool, help="output as yaml", default=False, required=False
-    )
 
     utils_parser_level_2_has_target_file=utils_parser_level_2.add_parser("has-target-file")
     utils_parser_level_2_has_target_file.add_argument(
@@ -166,7 +163,15 @@ def main():
         elif x.level2 == "timeline-scan":
             path = x.path
             extracted = thinkwareExtractor.video_vision.extract_time_list(path)
-            print(extracted)
+            l = list(set([line.date for line in extracted]))
+            d=[]
+            for i in l:
+                dd = {
+                    "date": i,
+                    "hour": [line.hour for line in extracted if line.date == i]
+                }
+                d.append(dd)
+            print(yaml.safe_dump(d))
         else:
             print(x)
     elif x.level1 == "mp4":
