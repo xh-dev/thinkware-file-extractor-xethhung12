@@ -41,6 +41,14 @@ def main():
         "--value","-v", type=str, help="scale value"
     )
 
+    utils_parser_level_2_timeline_scan=utils_parser_level_2.add_parser("timeline-scan")
+    utils_parser_level_2_timeline_scan.add_argument(
+        "--path", type=str, help="path to test",
+    )
+    utils_parser_level_2_timeline_scan.add_argument(
+        "--cut-config", type=bool, help="output as yaml", default=False, required=False
+    )
+
     utils_parser_level_2_has_target_file=utils_parser_level_2.add_parser("has-target-file")
     utils_parser_level_2_has_target_file.add_argument(
         "--path", type=str, help="path to test"
@@ -155,6 +163,10 @@ def main():
             prefix = x.prefix
             mode = x.mode
             return print("yes" if thinkwareExtractor.utils.has_target_file(path, prefix, mode) else "no")
+        elif x.level2 == "timeline-scan":
+            path = x.path
+            extracted = thinkwareExtractor.video_vision.extract_time_list(path)
+            print(extracted)
         else:
             print(x)
     elif x.level1 == "mp4":
